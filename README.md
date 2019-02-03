@@ -1,4 +1,5 @@
 # easyTeamSpeak
+### ONLY FOR DEBIAN 8, DEBIAN 9 (64 BIT)
 
 easyTeamSpeak ist ein sehr mächtiges Script für die Installation und Verwaltung von TS³-Servern, welches stetig weiterentwickelt und verbessert wird.
 
@@ -11,7 +12,7 @@ easyTeamSpeak ist ein sehr mächtiges Script für die Installation und Verwaltun
 - [x] Backup (Backups ansehen, Erstellen, Einspielen, Löschen) 
 
 ## Installation
-Lade die [easyTeamSpeak.sh](https://github.com/easy/easyTeamSpeak/releases/download/v1.0/easyTeamSpeak.sh) im /root-Verzeichnis hoch und gebe dem Script 777-Rechte mit `chmod 777 easyTeamSpeak.sh`.
+Gehe mit `cd` in das Root-Verzeichnis und lade dort mit `wget https://github.com/easy/easyTeamSpeak/releases/download/v1.0/easyTeamSpeak.sh` das Script herunter. Gebe dem Script 777-Rechte mit `chmod 777 easyTeamSpeak.sh`. Nun kann das Script genutzt werden.
 
 ## Benutzung
 Die Benutzung des Scripts ist sehr einfach. Du musst jediglich `./easyTeamSpeak.sh` im /root-Verzeichnis ausführen. Der Rest ist selbsterklärend.
