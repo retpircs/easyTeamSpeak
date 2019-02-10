@@ -12,7 +12,7 @@ easyTeamSpeak ist ein sehr mächtiges Script für die Installation und Verwaltun
 - [x] Backup (Backups ansehen, Erstellen, Einspielen, Löschen) 
 
 ## Installation
-Gehe mit `cd` in das Root-Verzeichnis und lade dort mit `wget https://github.com/easy/easyTeamSpeak/releases/download/v1.0/easyTeamSpeak.sh` das Script herunter. Gebe dem Script 777-Rechte mit `chmod 777 easyTeamSpeak.sh`. Nun kann das Script genutzt werden.
+Gehe mit `cd` in das Root-Verzeichnis und führe dort diesen Befehl aus: `wget https://github.com/easy/easyTeamSpeak/releases/download/v1.0-beta/easyTeamSpeak.sh && chmod 777 easyTeamSpeak.sh`
 
 ## Benutzung
 Die Benutzung des Scripts ist sehr einfach. Du musst jediglich `./easyTeamSpeak.sh` im Root-Verzeichnis ausführen. Der Rest ist selbsterklärend.
