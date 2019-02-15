@@ -1,5 +1,5 @@
 # easyTeamSpeak
-### ONLY FOR DEBIAN 8, DEBIAN 9 (64 BIT)
+### TESTED ON DEBIAN 8 / 9 (64 BIT)
 
 easyTeamSpeak ist ein sehr mächtiges Script für die Installation und Verwaltung von TS³-Servern, welches stetig weiterentwickelt und verbessert wird.
 
