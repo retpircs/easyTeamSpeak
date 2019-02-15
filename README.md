@@ -10,6 +10,8 @@ easyTeamSpeak ist ein sehr mächtiges Script für die Installation und Verwaltun
 - [x] Whitelist (Ansehen, IP hinzufügen, IP entfernen)
 - [x] Blacklist (Ansehen, IP hinzufügen, IP entfernen)
 - [x] Backup (Backups ansehen, Erstellen, Einspielen, Löschen) 
+- [x] Config (Layout anpassen, TS³-Pfad, Automatische Updates, Manuelles Update, Config zurücksetzen)
+- [ ] Nachträglich einsehbarer ServerAdmin-Token + Query-Passwort
 
 ## Installation
 Gehe mit `cd` in das Root-Verzeichnis und führe dort diesen Befehl aus: `wget https://github.com/easy/easyTeamSpeak/releases/download/v1.0-beta/easyTeamSpeak.sh && chmod 777 easyTeamSpeak.sh`
