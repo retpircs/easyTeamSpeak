@@ -1,21 +1,26 @@
 #!/bin/bash
 # Author: easy (https://github.com/easy)
-version="BETA 1.0"
+version="BETA v0.2"
 
 menu=("Installieren" "Deinstallieren" "Update" "Starten" "Stoppen" "Neustarten" "Whitelist" "Blacklist" "Backup" "Einstellungen" "Abbrechen")
 option=("Ja" "Nein")
 versionmenu=("3.6.1 (empfohlen)" "Individuell" "Zurück")
 list=("Anzeigen" "Hinzufügen" "Entfernen" "Änderungen übernehmen" "Zurück")
 backup=("Anzeigen" "Erstellen" "Einspielen" "Löschen" "Zurück")
-config=("Layout" "TS³-Pfad" "Einstellungen zurücksetzen" "Zurück")
-layout=("Grün-Rot (Standard)" "Individuell" "Rainbow" "Zurück")
+config=("Layout" "TS³-Pfad" "Automatische Updates" "Manuelles Update" "Einstellungen zurücksetzen" "Zurück")
+layout=("Grün-Rot (Standard)" "Individuell" "Zurück")
+optioncollor=("1. Farbe" "2. Farbe" "Zurück")
+colors=("Schwarz" "Rot" "Grün" "Gelb" "Blau" "Magenta" "Türkis" "Weiß")
 
 ########## Default Config ##########
 path="/home/TeamSpeak"
 c1="\033[32m\033[1m"
 c2="\033[31m\033[1m"
-rainbow=""
+autoupdate="true"
 ########## Default Config ##########
+
+touch /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 
 header() {
 	clear
@@ -64,8 +69,7 @@ do
 		"Abbrechen")
 			header
 			echo -e "${c1}wurde beendet!"
-			sleep 1
-			exit 1
+			exit
 			;;
 		*) echo "Ungültige Option: $REPLY";;
 	esac
@@ -135,7 +139,7 @@ install() {
 					fi
 					gomenu
 					;;
-				"Andere")
+				"Individuell")
 					echo -e "${c2}Bsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer${c1}"
 					read -p "Gib eine Version an: " versioninstall
 					if [[ -z "$versioninstall" ]]
@@ -213,7 +217,7 @@ install() {
 								fi
 								gomenu
 								;;
-							"Andere")
+							"Individuell")
 								echo -e "${c2}Bsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer${c1}"
 								read -p "Gib eine Version an: " versioninstall
 								if [[ -z "$versioninstall" ]]
@@ -555,7 +559,7 @@ backup1() {
 							"Ja")
 								rm -f /home/easy/easyTeamSpeak/Backups/$name.bz2
 								cd $path
-								tar cfvj ../backups/$name.bz2 teamspeak3-server_linux_amd64/
+								tar cfvj ../easy/easyTeamSpeak/Backups/$name.bz2 teamspeak3-server_linux_amd64/
 								header
 								echo -e "${c2}Das Backup ${c1}{$name} ${c2}wurde erflogreich erstellt!"
 								sleep 1
@@ -567,7 +571,7 @@ backup1() {
 					done
 				fi
 				cd $path
-				tar cfvj ../backups/$name.bz2 teamspeak3-server_linux_amd64/
+				tar cfvj ../easy/easyTeamSpeak/Backups/$name.bz2 teamspeak3-server_linux_amd64/
 				header
 				echo -e "${c2}Das Backup ${c1}{$name} ${c2}wurde erflogreich erstellt!"
 				sleep 1
@@ -640,73 +644,275 @@ backup1() {
 config() {
 	header
 	echo -e "${c1}Bitte wähle eine Option:${c2}"
-	select config in "${config[@]}"
+	select configmenu in "${config[@]}"
 	do
-		case $config in
-				"Layout")
+		case $configmenu in
+			"Layout")
+				header
+				echo -e "${c1}Bitte wähle eine Option:${c2}"
+				select layoutmenu in "${layout[@]}"
+				do
+					case $layoutmenu in
+						"Grün-Rot (Standard)")
+							sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							c1="\033[32m\033[1m"
+							c2="\033[31m\033[1m"
+							source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							header
+							echo -e "${c1}Das Layout wurde erfolgreich geändert."
+							sleep 1
+							gomenu
+							;;
+						"Individuell")
+							select colormenu in "${optioncollor[@]}"
+							do
+								case $colormenu in
+									"1. Farbe")
+										header
+										echo -e "${c1}Bitte wähle die erste Farbe:${c2}"
+										select color1 in "${colors[@]}"
+										do
+											case $color1 in
+												"Schwarz")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[30m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Rot")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[31m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Grün")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[32m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Gelb")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[33m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Blau")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[34m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Magenta")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[35m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Türkis")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[36m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Weiß")
+													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c1="\033[37m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+											esac
+										done
+										;;
+									"2. Farbe")
+										echo -e "${c1}Bitte wähle die zweite Farbe:${c2}"
+										select color2 in "${colors[@]}"
+										do
+											case $color2 in
+												"Schwarz")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[30m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Rot")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[31m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Grün")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[32m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Gelb")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[33m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Blau")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[34m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Magenta")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[35m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Türkis")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[36m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+													;;
+												"Weiß")
+													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													echo 'c2="\033[37m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													header
+													echo -e "${c1}Das Layout wurde erfolgreich geändert."
+													sleep 1
+													config
+											esac
+										done
+										;;
+									"Zurück")
+										config
+								esac
+							done
+							;;
+						"Zurück")
+							config
+					esac
+				done
+				config
+				;;
+			"TS³-Pfad")
+				header
+				echo -e "${c1}Soll der Pfad ${c2}{$path} ${c1}geändert werden?${c2}"
+				select changepath in "${option[@]}"
+				do
+					case $changepath in
+						"Ja")
+							echo -e "${c1} "
+							read -p "Gebe den neuen Pfad an: " newpath
+							sed -i '/path/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							echo "path=$newpath" >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							header
+							echo -e "${c1}Der Pfad wurde erfolgreich geändert."
+							sleep 1
+							config
+							;;
+						"Nein")
+							config
+					esac
+				done
+				;;
+			"Automatische Updates")
+				header
+				echo -e "${c1}Sollen automatische Updates durchgeführt werden?${c2}"
+				select autoupdateoption in "${option[@]}"
+				do
+					case $autoupdateoption in
+						"Ja")
+							sed -i '/autoupdate/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							config
+							;;
+						"Nein")
+							sed -i '/autoupdate/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							echo 'autoupdate="false"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+							config
+					esac
+				done				
+				;;	
+			"Manuelles Update")
+				echo -e "${c1} "
+				read -p "Bist du dir sicher? " -n 1 -r
+				if [[ $REPLY =~ ^[YyJj]$ ]]
+					then
 					header
-					echo -e "${c1}Bitte wähle eine Option:${c2}"
-					select layout in "${layout[@]}"
-					do
-						case $layout in
-							"Grün-Rot (Standard)")
-								sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								cd
-								./easyTeamSpeak.sh
-								;;
-							"Individuell")
-								config
-								;;
-							"Rainbow")
-								apt update
-								apt upgrade -y
-								apt install lolcat -y
-								gem install lolcat
-								sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								echo "rainbow=|lolcat" >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								cd
-								./easyTeamSpeak.sh
-								;;
-							"Zurück")
-								config
-						esac
-					done
+					echo -e "${c1}Updater${c2}"
+					cd
+					wget https://github.com/easy/easyTeamSpeak/archive/master.zip
+					unzip master.zip
+					mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
+					rm master.zip
+					rm -r easyTeamSpeak-master
+					chmod 777 easyTeamSpeak.sh
+					./easyTeamSpeak.sh
+				fi
+				config
+				;;
+			"Einstellungen zurücksetzen")
+				echo -e "${c1} "
+				read -p "Bist du dir sicher? " -n 1 -r
+				if [[ $REPLY =~ ^[YyJj]$ ]]
+					then
+					rm /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+					source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+					header
+					echo -e "${c1}Die Einstellungen wurden erfolgreich zurückgesetzt."
+					sleep 1
 					config
-					;;
-				"TS³-Pfad")
-					header
-					echo -e "${c1}Soll der Pfad ${c2}{$path} ${c1}geändert werden?${c2}"
-					select changepath in "${option[@]}"
-					do
-						case $changepath in
-							"Ja")
-								read -p "Gebe den neuen Pfad an: " newpath
-								sed -i '/path/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								echo "path=$newpath" >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-								cd
-								./easyTeamSpeak.sh
-								;;
-							"Nein")
-								config
-						esac
-					done
-					;;
-				"Einstellungen zurücksetzen")
-					read -p "Bist du dir sicher? " -n 1 -r
-					if [[ $REPLY =~ ^[YyJj]$ ]]
-						then
-						rm /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-						header
-						echo -e "${c1}Die Einstellungen wurden erfolgreich zurückgesetzt."
-						cd
-						./easyTeamSpeak.sh
-					fi
-					gomenu
-					;;
-				"Zurück")
-					gomenu
+				fi
+				config
+				;;
+			"Zurück")
+				gomenu
 		esac
 	done
 }
@@ -717,15 +923,18 @@ echo -e "${c1}by easy"
 echo -e "${c1}https://github.com/easy"
 echo -e "${c2}Attention! Bugs can occur. Please report this at https://github.com/easy/easyTeamSpeak"
 sleep 1
-#header
-#echo -e "${c1}Updater${c2}"
-#cd
-#wget https://github.com/easy/easyTeamSpeak/archive/master.zip
-#unzip master.zip
-#mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
-#rm master.zip
-#rm -r easyTeamSpeak-master
-#chmod 777 easyTeamSpeak.sh
+if [ "$autoupdate" = true ]
+	then
+	header
+	echo -e "${c1}Updater${c2}"
+	cd
+	wget https://github.com/easy/easyTeamSpeak/archive/master.zip
+	unzip master.zip
+	mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
+	rm master.zip
+	rm -r easyTeamSpeak-master
+	chmod 777 easyTeamSpeak.sh
+fi
 if [ ! -d "/home/easy" ]
 	then
 	mkdir /home/easy
@@ -738,6 +947,4 @@ if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
 	then
 	mkdir /home/easy/easyTeamSpeak/Backups
 fi
-touch /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 gomenu
