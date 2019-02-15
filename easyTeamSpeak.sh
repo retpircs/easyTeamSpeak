@@ -1,25 +1,33 @@
 #!/bin/bash
-
 # Author: easy (https://github.com/easy)
 version="BETA 1.0"
 
-menu=("Installieren" "Deinstallieren" "Update" "Starten" "Stoppen" "Neustarten" "Whitelist" "Blacklist" "Backup" "Abbrechen")
+menu=("Installieren" "Deinstallieren" "Update" "Starten" "Stoppen" "Neustarten" "Whitelist" "Blacklist" "Backup" "Einstellungen" "Abbrechen")
 option=("Ja" "Nein")
-versionmenu=("3.6.1 (empfohlen)" "Andere" "Zurück")
+versionmenu=("3.6.1 (empfohlen)" "Individuell" "Zurück")
 list=("Anzeigen" "Hinzufügen" "Entfernen" "Änderungen übernehmen" "Zurück")
 backup=("Anzeigen" "Erstellen" "Einspielen" "Löschen" "Zurück")
+config=("Layout" "TS³-Pfad" "Einstellungen zurücksetzen" "Zurück")
+layout=("Grün-Rot (Standard)" "Individuell" "Rainbow" "Zurück")
+
+########## Default Config ##########
+path="/home/TeamSpeak"
+c1="\033[32m\033[1m"
+c2="\033[31m\033[1m"
+rainbow=""
+########## Default Config ##########
 
 header() {
 	clear
-	echo -e "\033[32m\033[1m             \033[31m___             __               "
-	echo -e "\033[32m\033[1m _  _   _    \033[31m |   _  _   _  (_   _   _  _  |  "
-	echo -e "\033[32m\033[1m(- (_| _) \/ \033[31m |  (- (_| ||| __) |_) (- (_| |( "
-	echo -e "\033[32m\033[1m          /  \033[31m                   |   \033[32m$version"
+	echo -e "${c1}            ${c2} ___             __               "
+	echo -e "${c1} _  _   _   ${c2}  |   _  _   _  (_   _   _  _  |  "
+	echo -e "${c1}(- (_| _) \/${c2}  |  (- (_| ||| __) |_) (- (_| |( "
+	echo -e "${c1}          / ${c2}                    |   ${c1}$version"
 }
 
 gomenu() {
 header
-echo -e "\033[32mBitte wähle eine Option:\033[31m"
+echo -e "${c1}Bitte wähle eine Option:${c2}"
 select main in "${menu[@]}"
 do
 	case $main in
@@ -50,9 +58,12 @@ do
 		"Backup")
 			backup
 			;;
+		"Einstellungen")
+			config
+			;;
 		"Abbrechen")
 			header
-			echo -e "\033[32m\033[1mwurde beendet!"
+			echo -e "${c1}wurde beendet!"
 			sleep 1
 			exit 1
 			;;
@@ -62,11 +73,11 @@ done
 }
 
 checkinstall() {
-	if [ ! -d "/home/ts/teamspeak3-server_linux_amd64" ]
+	if [ ! -d "$path" ]
 		then
 		header
-		echo -e "\033[31m\033[1mEs ist kein TeamSpeak-Server installiert."
-		echo -e "\033[32mSoll TeamSpeak installiert werden?\033[31m"
+		echo -e "${c2}Es ist kein TeamSpeak-Server installiert."
+		echo -e "${c1}Soll TeamSpeak installiert werden?${c2}"
 		select checkinstall in "${option[@]}"
 		do
 			case $checkinstall in
@@ -91,23 +102,23 @@ timer() {
 }
 
 install() {
-	if [ ! -d /home/ts/teamspeak3-server_linux_amd64 ]
+	if [ ! -d ${path} ]
 		then
 		header
-		echo -e "\033[32mWelche Version soll installiert werden?\033[31m"
+		echo -e "${c1}Welche Version soll installiert werden?${c2}"
 		select tsversion in "${versionmenu[@]}"
 		do
 			case $tsversion in
 				"3.6.1 (empfohlen)")
-					echo -e "\033[31mTeamSpeak wird installiert. (3.6.1)\033[32m"
+					echo -e "${c2}TeamSpeak wird installiert. (3.6.1)${c1}"
 					read -p "Bist du dir sicher? " -n 1 -r
 					if [[ $REPLY =~ ^[YyJj]$ ]]
 						then
 						echo
 						apt update
 						apt upgrade -y
-						mkdir /home/ts
-						cd /home/ts
+						mkdir ${path}
+						cd ${path}
 						wget https://files.teamspeak-services.com/releases/server/3.6.1/teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 						tar xfvj teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 						rm teamspeak3-server_linux_amd64-3.6.1.tar.bz2
@@ -115,33 +126,33 @@ install() {
 						touch .ts3server_license_accepted
 						chmod 777 ts3server_startscript.sh
 						./ts3server_startscript.sh start
-						echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
-						echo -e "\033[31m\033[1mKopiere dir den Token und das Query Passwort."
+						echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
+						echo -e "${c2}Kopiere dir den Token und das Query Passwort."
 						timer
 						header
-						echo -e "\033[32m\033[1mTeamSpeak 3.6.1 wurde erfolgreich installiert!"
+						echo -e "${c1}TeamSpeak 3.6.1 wurde erfolgreich installiert!"
 						exit 1
 					fi
 					gomenu
 					;;
 				"Andere")
-					echo -e "\033[31m\033[1mBsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer\033[32m"
+					echo -e "${c2}Bsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer${c1}"
 					read -p "Gib eine Version an: " versioninstall
 					if [[ -z "$versioninstall" ]]
 						then
-						echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+						echo -e "${c2}Fehler: Keine Argumente angegeben"
 						sleep 1
 						install
 					fi
-					echo -e "\033[31mTeamSpeak wird installiert. ($versioninstall)\033[32m"
+					echo -e "${c2}TeamSpeak wird installiert. ($versioninstall)${c1}"
 					read -p "Bist du dir sicher? " -n 1 -r
 					if [[ $REPLY =~ ^[YyJj]$ ]]
 						then
 						echo
 						apt update
 						apt upgrade -y
-						mkdir /home/ts
-						cd /home/ts
+						mkdir ${path}
+						cd ${path}
 						wget https://files.teamspeak-services.com/releases/server/$versioninstall/teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 						tar xfvj teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 						rm teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
@@ -149,11 +160,11 @@ install() {
 						touch .ts3server_license_accepted
 						chmod 777 ts3server_startscript.sh
 						./ts3server_startscript.sh start
-						echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
-						echo -e "\033[31m\033[1mKopiere dir den Token und das Query Passwort."
+						echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
+						echo -e "${c2}Kopiere dir den Token und das Query Passwort."
 						timer
 						header
-						echo -e "\033[32m\033[1mTeamSpeak $versioninstall wurde erfolgreich installiert!"
+						echo -e "${c1}TeamSpeak $versioninstall wurde erfolgreich installiert!"
 						exit 1
 					fi
 					gomenu
@@ -164,28 +175,28 @@ install() {
 		done
 	else
 		header
-		echo -e "\033[31mTeamSpeak ist bereits installiert."
-		echo -e "\033[32mSoll TeamSpeak neu installiert werden?\033[32m"
+		echo -e "${c2}TeamSpeak ist bereits installiert."
+		echo -e "${c1}Soll TeamSpeak neu installiert werden?${c1}"
 		select reinstall in "${option[@]}"
 		do
 			case $reinstall in
 				"Ja")
-					echo -e "\033[32mWelche Version soll installiert werden?\033[31m"
+					echo -e "${c1}Welche Version soll installiert werden?${c2}"
 					select tsversion in "${versionmenu[@]}"
 					do
 						case $tsversion in
 							"3.6.1 (empfohlen)")
-								echo -e "\033[31mTeamSpeak wird neu installiert. (3.6.1)\033[32m"
+								echo -e "${c2}TeamSpeak wird neu installiert. (3.6.1)${c1}"
 								read -p "Bist du dir sicher? " -n 1 -r
 								if [[ $REPLY =~ ^[YyJj]$ ]]
 									then
 									echo
 									apt update
 									apt upgrade -y
-									cd /home/ts/teamspeak3-server_linux_amd64
+									cd ${path}/teamspeak3-server_linux_amd64
 									./ts3server_startscript.sh stop
-									rm -r -f /home/ts/teamspeak3-server_linux_amd64
-									cd /home/ts
+									rm -r -f ${path}/teamspeak3-server_linux_amd64
+									cd ${path}
 									wget https://files.teamspeak-services.com/releases/server/3.6.1/teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 									tar xfvj teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 									rm teamspeak3-server_linux_amd64-3.6.1.tar.bz2
@@ -193,35 +204,35 @@ install() {
 									touch .ts3server_license_accepted
 									chmod 777 ts3server_startscript.sh
 									./ts3server_startscript.sh start
-									echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
-									echo -e "\033[31m\033[1mKopiere dir den Token und das Query Passwort."
+									echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
+									echo -e "${c2}Kopiere dir den Token und das Query Passwort."
 									timer
 									header
-									echo -e "\033[32m\033[1mTeamSpeak 3.6.1 wurde erfolgreich neu installiert!"
+									echo -e "${c1}TeamSpeak 3.6.1 wurde erfolgreich neu installiert!"
 									exit 1
 								fi
 								gomenu
 								;;
 							"Andere")
-								echo -e "\033[31m\033[1mBsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer\033[32m"
+								echo -e "${c2}Bsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer${c1}"
 								read -p "Gib eine Version an: " versioninstall
 								if [[ -z "$versioninstall" ]]
 									then
-									echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+									echo -e "${c2}Fehler: Keine Argumente angegeben"
 									sleep 1
 									install
 								fi
-								echo -e "\033[31mTeamSpeak wird neu installiert. ($versioninstall)\033[32m"
+								echo -e "${c2}TeamSpeak wird neu installiert. ($versioninstall)${c1}"
 								read -p "Bist du dir sicher? " -n 1 -r
 								if [[ $REPLY =~ ^[YyJj]$ ]]
 									then
 									echo
 									apt update
 									apt upgrade -y
-									cd /home/ts/teamspeak3-server_linux_amd64
+									cd ${path}/teamspeak3-server_linux_amd64
 									./ts3server_startscript.sh stop
-									rm -r -f /home/ts/teamspeak3-server_linux_amd64
-									cd /home/ts
+									rm -r -f ${path}/teamspeak3-server_linux_amd64
+									cd ${path}
 									wget https://files.teamspeak-services.com/releases/server/$versioninstall/teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 									tar xfvj teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 									rm teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
@@ -229,11 +240,11 @@ install() {
 									touch .ts3server_license_accepted
 									chmod 777 ts3server_startscript.sh
 									./ts3server_startscript.sh start
-									echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
-									echo -e "\033[31m\033[1mKopiere dir den Token und das Query Passwort."
+									echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
+									echo -e "${c2}Kopiere dir den Token und das Query Passwort."
 									timer
 									header
-									echo -e "\033[32m\033[1mTeamSpeak $versioninstall wurde erfolgreich neu installiert!"
+									echo -e "${c1}TeamSpeak $versioninstall wurde erfolgreich neu installiert!"
 									exit 1
 								fi
 								gomenu
@@ -251,16 +262,16 @@ install() {
 }
 
 deinstall() {
-	echo -e "\033[31mTeamSpeak wird deinstalliert.\033[32m"
+	echo -e "${c2}TeamSpeak wird deinstalliert.${c1}"
 	read -p "Bist du dir sicher? " -n 1 -r
 	if [[ $REPLY =~ ^[YyJj]$ ]]
 		then
 		echo
-		cd /home/ts/teamspeak3-server_linux_amd64
+		cd $path/teamspeak3-server_linux_amd64
 		./ts3server_startscript.sh stop
-		rm -r -f /home/ts
+		rm -r -f $path
 		header
-		echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich deinstalliert!"
+		echo -e "${c1}TeamSpeak wurde erfolgreich deinstalliert!"
 		sleep 1
 		gomenu
 	fi
@@ -269,27 +280,27 @@ deinstall() {
 
 update() {
 	checkinstall
-	echo -e "\033[32mAuf welche Version soll geupdatet / gedowngradet werden?\033[31m"
+	echo -e "${c1}Auf welche Version soll geupdatet werden?${c2}"
 	select tsversion in "${versionmenu[@]}"
 	do
 		case $tsversion in
 			"3.6.1 (empfohlen)")
-				echo -e "\033[31mTeamSpeak wird geupdatet / gedowngradet. (3.6.1)\033[32m"
+				echo -e "${c2}TeamSpeak wird geupdatet. (3.6.1)${c1}"
 				read -p "Bist du dir sicher? " -n 1 -r
 				if [[ $REPLY =~ ^[YyJj]$ ]]
 					then
 					echo
 					apt update
 					apt upgrade -y
-					if [ ! -d "/home/backups" ]
+					if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
 						then
-						mkdir /home/backups
+						mkdir /home/easy/easyTeamSpeak/Backups
 					fi
-					cd /home/ts
+					cd $path
 					tar cfvj ../backups/secruity-backup.bz2 teamspeak3-server_linux_amd64/
-					cd /home/ts/teamspeak3-server_linux_amd64
+					cd $path/teamspeak3-server_linux_amd64
 					./ts3server_startscript.sh stop
-					cd /home/ts
+					cd $path
 					wget https://files.teamspeak-services.com/releases/server/3.6.1/teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 					tar xfvj teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 					rm teamspeak3-server_linux_amd64-3.6.1.tar.bz2
@@ -297,37 +308,37 @@ update() {
 					touch .ts3server_license_accepted
 					./ts3server_startscript.sh start
 					header
-					echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich auf die 3.6.1 aktualisiert!"
-					echo -e "\033[32m\033[1mSicherheits-Backup unter dem Namen \033[31m{secruity-backup} \033[32mabgespeichert."
+					echo -e "${c1}TeamSpeak wurde erfolgreich auf die 3.6.1 aktualisiert!"
+					echo -e "${c1}Sicherheits-Backup unter dem Namen ${c2}{secruity-backup} ${c1}abgespeichert."
 					exit 1
 				fi
 				gomenu
 				;;
-			"Andere")
-				echo -e "\033[31m\033[1mBsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer\033[32m"
+			"Individuell")
+				echo -e "${c2}Bsp: '3.5.0' '3.5.1' '3.6.0' '3.6.1' oder neuer${c1}"
 				read -p "Gib eine Version an: " versioninstall
 				if [[ -z "$versioninstall" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					sleep 1
 					update
 				fi
-				echo -e "\033[31mTeamSpeak wird geupdatet / gedowngradet. ($versioninstall)\033[32m"
+				echo -e "${c2}TeamSpeak wird geupdatet. ($versioninstall)${c1}"
 				read -p "Bist du dir sicher? " -n 1 -r
 				if [[ -z "$versioninstall" ]]
 					then
 					echo
 					apt update
 					apt upgrade -y
-					if [ ! -d "/home/backups" ]
+					if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
 						then
-						mkdir /home/backups
+						mkdir /home/easy/easyTeamSpeak/Backups
 					fi
-					cd /home/ts
+					cd $path
 					tar cfvj ../backups/secruity-backup.bz2 teamspeak3-server_linux_amd64/
-					cd /home/ts/teamspeak3-server_linux_amd64
+					cd $path/teamspeak3-server_linux_amd64
 					./ts3server_startscript.sh stop
-					cd /home/ts
+					cd $path
 					wget https://files.teamspeak-services.com/releases/server/$versioninstall/teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 					tar xfvj teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 					rm teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
@@ -335,8 +346,8 @@ update() {
 					touch .ts3server_license_accepted
 					./ts3server_startscript.sh start
 					header
-					echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich auf die $versioninstall aktualisiert!"
-					echo -e "\033[32m\033[1mSicherheits-Backup unter dem Namen \033[31m{secruity-backup} \033[32mabgespeichert."
+					echo -e "${c1}TeamSpeak wurde erfolgreich auf die $versioninstall aktualisiert!"
+					echo -e "${c1}Sicherheits-Backup unter dem Namen ${c2}{secruity-backup} ${c1}abgespeichert."
 					exit 1
 				fi
 				gomenu
@@ -349,79 +360,79 @@ update() {
 
 start() {
 	checkinstall
-	cd /home/ts/teamspeak3-server_linux_amd64
+	cd $path/teamspeak3-server_linux_amd64
 	./ts3server_startscript.sh start
 	header
-	echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich gestartet!"
+	echo -e "${c1}TeamSpeak wurde erfolgreich gestartet!"
 	exit 1
 }
 
 stop() {
 	checkinstall
-	cd /home/ts/teamspeak3-server_linux_amd64
+	cd $path/teamspeak3-server_linux_amd64
 	./ts3server_startscript.sh stop
 	header
-	echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich gestoppt!"
+	echo -e "${c1}TeamSpeak wurde erfolgreich gestoppt!"
 	sleep 1
 	gomenu
 }
 
 restart() {
 	checkinstall
-	cd /home/ts/teamspeak3-server_linux_amd64
+	cd $path/teamspeak3-server_linux_amd64
 	./ts3server_startscript.sh restart
 	header
-	echo -e "\033[32m\033[1mTeamSpeak wurde erfolgreich neugestartet!"
+	echo -e "${c1}TeamSpeak wurde erfolgreich neugestartet!"
 	exit 1
 }
 
 whitelist() {
+	checkinstall
 	header
 	whitelist1
 }
 
 whitelist1() {
-	checkinstall
-	echo -e "\033[32mBitte wähle eine Option:\033[31m"
+	echo -e "${c1}Bitte wähle eine Option:${c2}"
 	select white in "${list[@]}"
 	do
 		case $white in
 			"Anzeigen")
-				echo -e "\033[32mAlle IPs:\033[31m"
-				cat -A /home/ts/teamspeak3-server_linux_amd64/query_ip_whitelist.txt
+				echo -e "${c1}Alle IPs:${c2}"
+				cat -A $path/teamspeak3-server_linux_amd64/query_ip_whitelist.txt
 				whitelist1
 				;;
 			"Hinzufügen")
-				echo -e "\033[32m\033[1m"
+				echo -e "${c1}"
 				read -p "Gebe eine IP an: " ip
 				if [[ -z "$ip" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					whitelist1
 				fi
-				echo $ip >> /home/ts/teamspeak3-server_linux_amd64/query_ip_whitelist.txt
+				echo $ip >> $path/teamspeak3-server_linux_amd64/query_ip_whitelist.txt
 				header
-				echo -e "\033[32m{$ip} \033[31mwurde erflogreich zur Whitelist hinzugefügt!"
+				echo -e "${c1}{$ip} ${c2}wurde erflogreich zur Whitelist hinzugefügt!"
 				sleep 1
 				whitelist
 				;;
 			"Entfernen")
-				echo -e "\033[32m\033[1m"
+				echo -e "${c1}"
 				read -p "Gebe eine IP an: " ip
 				if [[ -z "$ip" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					whitelist1
 				fi
-				sed -i "/$ip/d" /home/ts/teamspeak3-server_linux_amd64/query_ip_whitelist.txt
+				sed -i "/$ip/d" $path/teamspeak3-server_linux_amd64/query_ip_whitelist.txt
 				header
-				echo -e "\033[32m{$ip} \033[31mwurde erflogreich von der Whitelist entfernt!"
+				echo -e "${c1}{$ip} ${c2}wurde erflogreich von der Whitelist entfernt!"
 				sleep 1
 				whitelist
 				;;
 			"Änderungen übernehmen")
-				echo -e "\033[31m\033[1mDer TeamSpeak muss neugestartet werden."
-				echo -e "\033[32m\033[1mSoll der TeamSpeak neugestartet werden?\033[31m"
+				echo -e "${c2}Der TeamSpeak muss neugestartet werden."
+				echo -e "${c1}Soll der TeamSpeak neugestartet werden?${c2}"
 				select tsrestart in "${option[@]}"
 				do
 					case $tsrestart in
@@ -440,52 +451,53 @@ whitelist1() {
 }
 
 blacklist() {
+	checkinstall
 	header
 	blacklist1
 }
 
 blacklist1() {
 	checkinstall
-	echo -e "\033[32mBitte wähle eine Option:\033[31m"
+	echo -e "${c1}Bitte wähle eine Option:${c2}"
 	select white in "${list[@]}"
 	do
 		case $white in
 			"Anzeigen")
-				echo -e "\033[32mAlle IPs:\033[31m"
-				cat -A /home/ts/teamspeak3-server_linux_amd64/query_ip_blacklist.txt
+				echo -e "${c1}Alle IPs:${c2}"
+				cat -A $path/teamspeak3-server_linux_amd64/query_ip_blacklist.txt
 				blacklist1
 				;;
 			"Hinzufügen")
-				echo -e "\033[32m\033[1m"
+				echo -e "${c1}"
 				read -p "Gebe eine IP an: " ip
 				if [[ -z "$ip" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					blacklist1
 				fi
-				echo $ip >> /home/ts/teamspeak3-server_linux_amd64/query_ip_blacklist.txt
+				echo $ip >> $path/teamspeak3-server_linux_amd64/query_ip_blacklist.txt
 				header
-				echo -e "\033[32m{$ip} \033[31mwurde erflogreich zur Blacklist hinzugefügt!"
+				echo -e "${c1}{$ip} ${c2}wurde erflogreich zur Blacklist hinzugefügt!"
 				sleep 1
 				blacklist
 				;;
 			"Entfernen")
-				echo -e "\033[32m\033[1m"
+				echo -e "${c1}"
 				read -p "Gebe eine IP an: " ip
 				if [[ -z "$ip" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					blacklist1
 				fi
-				sed -i "/$ip/d" /home/ts/teamspeak3-server_linux_amd64/query_ip_blacklist.txt
+				sed -i "/$ip/d" $path/teamspeak3-server_linux_amd64/query_ip_blacklist.txt
 				header
-				echo -e "\033[32m{$ip} \033[31mwurde erflogreich von der Blacklist entfernt!"
+				echo -e "${c1}{$ip} ${c2}wurde erflogreich von der Blacklist entfernt!"
 				sleep 1
 				whitelist
 				;;
 			"Änderungen übernehmen")
-				echo -e "\033[31m\033[1mDer TeamSpeak muss neugestartet werden."
-				echo -e "\033[32m\033[1mSoll der TeamSpeak neugestartet werden?\033[31m"
+				echo -e "${c2}Der TeamSpeak muss neugestartet werden."
+				echo -e "${c1}Soll der TeamSpeak neugestartet werden?${c2}"
 				select tsrestart in "${option[@]}"
 				do
 					case $tsrestart in
@@ -504,52 +516,48 @@ blacklist1() {
 }
 
 backup() {
-	checkinstall
 	header
 	backup1
 }
 
 backup1() {
-	echo -e "\033[32mBitte wähle eine Option:\033[31m"
+	echo -e "${c1}Bitte wähle eine Option:${c2}"
 	select backups in "${backup[@]}"
 	do
 		case $backups in
 			"Anzeigen")
-				if [ ! -d "/home/backups" ]
+				if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
 					then
-					mkdir /home/backups
+					mkdir /home/easy/easyTeamSpeak/Backups
 				fi
-				cd /home/backups
-				echo -e "\033[32mAlle Backups:\033[31m"
+				cd /home/easy/easyTeamSpeak/Backups
+				echo -e "${c1}Alle Backups:${c2}"
 				ls
 				backup1
 				;;
 			"Erstellen")
-				echo -e "\033[32m\033[1m"
+				checkinstall
+				echo -e "${c1}"
 				read -p "Vergebe einen Namen: " name
 				if [[ -z "$name" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					backup1
 				fi
-				if [ ! -d "/home/backups" ]
-					then
-					mkdir /home/backups
-				fi
-				if [ -f /home/backups/$name.bz2 ]
+				if [ -f /home/easy/easyTeamSpeak/Backups/$name.bz2 ]
 					then
 					header
-					echo -e "\033[31m\033[1mDas backup \033[32m{$name} \033[31mist bereits vorhanden."
-					echo -e "\033[32m\033[1mSoll das backup überschrieben werden?\033[31m"
+					echo -e "${c2}Das backup ${c1}{$name} ${c2}ist bereits vorhanden."
+					echo -e "${c1}Soll das backup überschrieben werden?${c2}"
 					select override in "${option[@]}"
 					do
 						case $override in
 							"Ja")
-								rm -f /home/backups/$name.bz2
-								cd /home/ts
+								rm -f /home/easy/easyTeamSpeak/Backups/$name.bz2
+								cd $path
 								tar cfvj ../backups/$name.bz2 teamspeak3-server_linux_amd64/
 								header
-								echo -e "\033[31mDas Backup \033[32m{$name} \033[31mwurde erflogreich erstellt!"
+								echo -e "${c2}Das Backup ${c1}{$name} ${c2}wurde erflogreich erstellt!"
 								sleep 1
 								backup
 								;;
@@ -558,66 +566,66 @@ backup1() {
 						esac
 					done
 				fi
-				cd /home/ts
+				cd $path
 				tar cfvj ../backups/$name.bz2 teamspeak3-server_linux_amd64/
 				header
-				echo -e "\033[31mDas Backup \033[32m{$name} \033[31mwurde erflogreich erstellt!"
+				echo -e "${c2}Das Backup ${c1}{$name} ${c2}wurde erflogreich erstellt!"
 				sleep 1
 				backup
 				;;
 			"Einspielen")
-				echo -e "\033[32m\033[1m"
+				echo -e "${c1}"
 				read -p "Gebe den Namen des Backups an: " name
 				if [[ -z "$name" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					backup1
 				fi
-				if [ ! -f /home/backups/$name.bz2 ]
+				if [ ! -f /home/easy/easyTeamSpeak/Backups/$name.bz2 ]
 					then
-					echo -e "\033[31m\033[1mBackup \033[32m{$name} \033[31mkonnte nicht gefunden werde."
+					echo -e "${c2}Backup ${c1}{$name} ${c2}konnte nicht gefunden werde."
 					sleep 1
 					backup
 				fi
-				echo -e "\033[31m\033[1mBackup \033[32m\033[1m{$name} \033[31m\033[1mwird eingespielt.\033[32m\033[1m"
+				echo -e "${c2}Backup ${c1}{$name} ${c2}wird eingespielt.${c1}"
 				read -p "Bist du dir sicher? " -n 1 -r
 				if [[ $REPLY =~ ^[YyJj]$ ]]
 					then
-					cd /home/ts/teamspeak3-server_linux_amd64
+					cd $path/teamspeak3-server_linux_amd64
 					./ts3server_startscript.sh stop
-					rm -r -f /home/ts/teamspeak3-server_linux_amd64
-					cd /home/backups
+					rm -r -f $path/teamspeak3-server_linux_amd64
+					cd /home/easy/easyTeamSpeak/Backups
 					tar xfvj $name.bz2
 					cd
-					mv /home/backups/teamspeak3-server_linux_amd64 /home/ts/
-					cd /home/ts/teamspeak3-server_linux_amd64
+					mv /home/easy/easyTeamSpeak/Backups/teamspeak3-server_linux_amd64 $path/
+					cd $path/teamspeak3-server_linux_amd64
 					./ts3server_startscript.sh start
 					header
-					echo -e "\033[31mBackup \033[32m{$name} \033[31mwurde erflogreich eingespielt!"
+					echo -e "${c2}Backup ${c1}{$name} ${c2}wurde erflogreich eingespielt!"
 					exit 1
 				fi
 				backup
 				;;
 			"Löschen")
-				echo -e "\033[32m\033[1m"
+				echo -e "${c1}"
 				read -p "Gebe den Namen des Backups ein: " name
 				if [[ -z "$name" ]]
 					then
-					echo -e "\033[31m\033[1mFehler: Keine Argumente angegeben"
+					echo -e "${c2}Fehler: Keine Argumente angegeben"
 					backup1
 				fi
-				if [ ! -f /home/backups/$name.bz2 ]
+				if [ ! -f /home/easy/easyTeamSpeak/Backups/$name.bz2 ]
 					then
-					echo -e "\033[31m\033[1mFehler: Backup $name nicht gefunden"
+					echo -e "${c2}Fehler: Backup $name nicht gefunden"
 					backup1
 				fi
-				echo -e "\033[31m\033[1mBackup \033[32m\033[1m{$name} \033[31m\033[1mwird gelöscht.\033[32m\033[1m"
+				echo -e "${c2}Backup ${c1}{$name} ${c2}wird gelöscht.${c1}"
 				read -p "Bist du dir sicher? " -n 1 -r
 				if [[ $REPLY =~ ^[YyJj]$ ]]
 					then
-					rm -f /home/backups/$name.bz2
+					rm -f /home/easy/easyTeamSpeak/Backups/$name.bz2
 					header
-					echo -e "\033[31mBackup \033[32m{$name} \033[31mwurde erflogreich gelöscht!"
+					echo -e "${c2}Backup ${c1}{$name} ${c2}wurde erflogreich gelöscht!"
 					sleep 1
 					backup
 				fi
@@ -629,19 +637,107 @@ backup1() {
 	done
 }
 
+config() {
+	header
+	echo -e "${c1}Bitte wähle eine Option:${c2}"
+	select config in "${config[@]}"
+	do
+		case $config in
+				"Layout")
+					header
+					echo -e "${c1}Bitte wähle eine Option:${c2}"
+					select layout in "${layout[@]}"
+					do
+						case $layout in
+							"Grün-Rot (Standard)")
+								sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								cd
+								./easyTeamSpeak.sh
+								;;
+							"Individuell")
+								config
+								;;
+							"Rainbow")
+								apt update
+								apt upgrade -y
+								apt install lolcat -y
+								gem install lolcat
+								sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								echo "rainbow=|lolcat" >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								cd
+								./easyTeamSpeak.sh
+								;;
+							"Zurück")
+								config
+						esac
+					done
+					config
+					;;
+				"TS³-Pfad")
+					header
+					echo -e "${c1}Soll der Pfad ${c2}{$path} ${c1}geändert werden?${c2}"
+					select changepath in "${option[@]}"
+					do
+						case $changepath in
+							"Ja")
+								read -p "Gebe den neuen Pfad an: " newpath
+								sed -i '/path/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								echo "path=$newpath" >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+								cd
+								./easyTeamSpeak.sh
+								;;
+							"Nein")
+								config
+						esac
+					done
+					;;
+				"Einstellungen zurücksetzen")
+					read -p "Bist du dir sicher? " -n 1 -r
+					if [[ $REPLY =~ ^[YyJj]$ ]]
+						then
+						rm /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+						header
+						echo -e "${c1}Die Einstellungen wurden erfolgreich zurückgesetzt."
+						cd
+						./easyTeamSpeak.sh
+					fi
+					gomenu
+					;;
+				"Zurück")
+					gomenu
+		esac
+	done
+}
+
 header
-echo -e "\033[32m\033[1mVersion: $version"
-echo -e "\033[32m\033[1mby easy"
-echo -e "\033[32m\033[1mhttps://github.com/easy"
-echo -e "\033[31mAttention! Bugs can occur. Please report this at https://github.com/easy/easyTeamSpeak"
+echo -e "${c1}Version: $version"
+echo -e "${c1}by easy"
+echo -e "${c1}https://github.com/easy"
+echo -e "${c2}Attention! Bugs can occur. Please report this at https://github.com/easy/easyTeamSpeak"
 sleep 1
-header
-echo -e "\033[32m\033[1mUpdater\033[31m"
-cd
-wget https://github.com/easy/easyTeamSpeak/archive/master.zip
-unzip master.zip
-mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
-rm master.zip
-rm -r easyTeamSpeak-master
-chmod 777 easyTeamSpeak.sh
+#header
+#echo -e "${c1}Updater${c2}"
+#cd
+#wget https://github.com/easy/easyTeamSpeak/archive/master.zip
+#unzip master.zip
+#mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
+#rm master.zip
+#rm -r easyTeamSpeak-master
+#chmod 777 easyTeamSpeak.sh
+if [ ! -d "/home/easy" ]
+	then
+	mkdir /home/easy
+fi
+if [ ! -d "/home/easy/easyTeamSpeak" ]
+	then
+	mkdir /home/easy/easyTeamSpeak
+fi
+if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
+	then
+	mkdir /home/easy/easyTeamSpeak/Backups
+fi
+touch /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 gomenu
