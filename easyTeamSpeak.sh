@@ -629,7 +629,7 @@ backup1() {
 					then
 					rm -f /home/easy/easyTeamSpeak/Backups/$name.bz2
 					header
-					echo -e "${c2}Backup ${c1}{$name} ${c2}wurde erflogreich gelöscht!"
+					echo -e "${c2}Backup ${c1}{$name} ${c2}wurde erfolgreich gelöscht!"
 					sleep 1
 					backup
 				fi
