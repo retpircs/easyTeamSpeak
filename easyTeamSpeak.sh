@@ -128,7 +128,7 @@ install() {
 						rm teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 						cd teamspeak3-server_linux_amd64
 						touch .ts3server_license_accepted
-						chmod 777 ts3server_startscript.sh
+						chmod +x ts3server_startscript.sh
 						./ts3server_startscript.sh start
 						echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
 						echo -e "${c2}Kopiere dir den Token und das Query Passwort."
@@ -162,7 +162,7 @@ install() {
 						rm teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 						cd teamspeak3-server_linux_amd64
 						touch .ts3server_license_accepted
-						chmod 777 ts3server_startscript.sh
+						chmod +x ts3server_startscript.sh
 						./ts3server_startscript.sh start
 						echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
 						echo -e "${c2}Kopiere dir den Token und das Query Passwort."
@@ -206,7 +206,7 @@ install() {
 									rm teamspeak3-server_linux_amd64-3.6.1.tar.bz2
 									cd teamspeak3-server_linux_amd64
 									touch .ts3server_license_accepted
-									chmod 777 ts3server_startscript.sh
+									chmod +x ts3server_startscript.sh
 									./ts3server_startscript.sh start
 									echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
 									echo -e "${c2}Kopiere dir den Token und das Query Passwort."
@@ -242,7 +242,7 @@ install() {
 									rm teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 									cd teamspeak3-server_linux_amd64
 									touch .ts3server_license_accepted
-									chmod 777 ts3server_startscript.sh
+									chmod +x ts3server_startscript.sh
 									./ts3server_startscript.sh start
 									echo -e "${c1}TeamSpeak wurde erfolgreich unter dem Port 9987 installiert!"
 									echo -e "${c2}Kopiere dir den Token und das Query Passwort."
@@ -892,7 +892,7 @@ config() {
 					mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
 					rm master.zip
 					rm -r easyTeamSpeak-master
-					chmod 777 easyTeamSpeak.sh
+					chmod +x easyTeamSpeak.sh
 					./easyTeamSpeak.sh
 				fi
 				config
@@ -933,7 +933,7 @@ if [ "$autoupdate" = true ]
 	mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
 	rm master.zip
 	rm -r easyTeamSpeak-master
-	chmod 777 easyTeamSpeak.sh
+	chmod +x easyTeamSpeak.sh
 fi
 if [ ! -d "/home/easy" ]
 	then
