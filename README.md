@@ -20,7 +20,7 @@ Gehe mit `cd` in das Root-Verzeichnis und führe dort diesen Befehl aus: `wget h
 Die Benutzung des Scripts ist sehr einfach. Du musst jediglich `./easyTeamSpeak.sh` im Root-Verzeichnis ausführen. Der Rest ist selbsterklärend.
 
 ## Sceenshots
-- Menu: https://prnt.sc/mg6t0n
-- Installation: https://prnt.sc/mg6ta5 https://prnt.sc/mg6tfz
-- White-/ Blacklist: https://prnt.sc/mg6tno
-- Backup: https://prnt.sc/mg6tt4
+- Menu: https://prnt.sc/mg6t0n (ALT!)
+- Installation: https://prnt.sc/mg6ta5 https://prnt.sc/mg6tfz (ALT!)
+- White-/ Blacklist: https://prnt.sc/mg6tno (ALT!)
+- Backup: https://prnt.sc/mg6tt4 (ALT!)
