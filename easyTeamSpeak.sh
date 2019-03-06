@@ -184,6 +184,7 @@ install3() {
 		then
 		apt update
 		apt upgrade -y
+		apt install bzip2
 		mkdir ${path}
 		cd ${path}
 		wget https://files.teamspeak-services.com/releases/server/$versioninstall/teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
