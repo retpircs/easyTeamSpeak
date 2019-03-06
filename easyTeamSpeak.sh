@@ -604,6 +604,7 @@ config() {
 											case $color1 in
 												"Schwarz")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[30m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -613,6 +614,7 @@ config() {
 													;;
 												"Rot")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[31m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -622,6 +624,7 @@ config() {
 													;;
 												"Grün")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[32m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -631,6 +634,7 @@ config() {
 													;;
 												"Gelb")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[33m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -640,6 +644,7 @@ config() {
 													;;
 												"Blau")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[34m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -649,6 +654,7 @@ config() {
 													;;
 												"Magenta")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[35m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -658,6 +664,7 @@ config() {
 													;;
 												"Türkis")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[36m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -667,6 +674,7 @@ config() {
 													;;
 												"Weiß")
 													sed -i '/c1/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c1="\033[37m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -684,6 +692,7 @@ config() {
 											case $color2 in
 												"Schwarz")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[30m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -693,6 +702,7 @@ config() {
 													;;
 												"Rot")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[31m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -702,6 +712,7 @@ config() {
 													;;
 												"Grün")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[32m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -711,6 +722,7 @@ config() {
 													;;
 												"Gelb")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[33m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -720,6 +732,7 @@ config() {
 													;;
 												"Blau")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[34m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -729,6 +742,7 @@ config() {
 													;;
 												"Magenta")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[35m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -738,6 +752,7 @@ config() {
 													;;
 												"Türkis")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[36m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
@@ -747,6 +762,7 @@ config() {
 													;;
 												"Weiß")
 													sed -i '/c2/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+													sed -i '/rainbow/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													echo 'c2="\033[37m"' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 													header
