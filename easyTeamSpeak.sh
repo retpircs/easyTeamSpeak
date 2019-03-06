@@ -835,15 +835,7 @@ config() {
 				read -p "Bist du dir sicher? " -n 1 -r
 				if [[ $REPLY =~ ^[YyJj]$ ]]
 					then
-					header
-					message="Updater" && message
-					cd
-					wget https://github.com/easy/easyTeamSpeak/archive/master.zip
-					unzip master.zip
-					mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
-					rm master.zip
-					rm -r easyTeamSpeak-master
-					chmod +x easyTeamSpeak.sh
+					update
 					header
 					message="Das Script ist nun auf der neusten Version." && message
 					sleep 1
@@ -871,6 +863,18 @@ config() {
 	done
 }
 
+update() {
+	header
+	message="Updater" && message
+	cd
+	wget https://github.com/easy/easyTeamSpeak/archive/master.zip
+	unzip master.zip
+	mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
+	rm master.zip
+	rm -r easyTeamSpeak-master
+	chmod +x easyTeamSpeak.sh
+}
+
 if [ "$firstuse" = true ]
 	then
 	clear
@@ -889,15 +893,7 @@ message="Attention! Bugs can occur. Please report this at https://github.com/eas
 sleep 1
 if [ "$autoupdate" = true ]
 	then
-	header
-	message="Updater" && message
-	cd
-	wget https://github.com/easy/easyTeamSpeak/archive/master.zip
-	unzip master.zip
-	mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
-	rm master.zip
-	rm -r easyTeamSpeak-master
-	chmod +x easyTeamSpeak.sh
+	update
 fi
 if [ ! -d "/home/easy" ]
 	then
