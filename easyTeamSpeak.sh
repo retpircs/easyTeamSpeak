@@ -900,7 +900,6 @@ update() {
 	message="Updater" && message
 	cd
 	wget https://github.com/easy/easyTeamSpeak/archive/master.zip
-	apt install unzip
 	unzip master.zip
 	mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
 	rm master.zip
@@ -914,8 +913,10 @@ if [ "$firstuse" = true ]
 	echo -e "${c1}Erste Benutzung: ${c2}Das Script wird vorbereitet."
 	sleep 2
 	apt update
+	apt upgrade -y
 	apt install ruby -y
-	gem install lolcat
+	gem install lolcat -y
+	apt install unzip -y
 	sed -i '/firstuse/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 	echo 'firstuse=false' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 	source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
