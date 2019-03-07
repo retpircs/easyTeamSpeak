@@ -14,10 +14,10 @@ easyTeamSpeak ist ein sehr mächtiges Script für die Installation und Verwaltun
 - [ ] Nachträglich einsehbarer ServerAdmin-Token + Query-Passwort
 
 ## Installation
-Gehe mit `cd` in das Root-Verzeichnis und führe dort diesen Befehl aus: `wget https://github.com/easy/easyTeamSpeak/releases/download/v0.3/easyTeamSpeak.sh && chmod 777 easyTeamSpeak.sh`
+Gehe mit `cd` in das Root-Verzeichnis und führe dort diesen Befehl aus: `wget https://github.com/easy/easyTeamSpeak/releases/download/v0.3/easyTeamSpeak.sh && chmod +x easyTeamSpeak.sh`
 
 ## Benutzung
-Die Benutzung des Scripts ist sehr einfach. Du musst jediglich `./easyTeamSpeak.sh` im Root-Verzeichnis ausführen. Der Rest ist selbsterklärend.
+Die Benutzung des Scripts ist sehr einfach. Du musst lediglich `./easyTeamSpeak.sh` im Root-Verzeichnis ausführen. Der Rest ist selbsterklärend.
 
 ## Sceenshots
 - Menu: https://prnt.sc/mg6t0n (ALT!)
