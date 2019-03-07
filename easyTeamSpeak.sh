@@ -900,6 +900,7 @@ update() {
 	message="Updater" && message
 	cd
 	wget https://github.com/easy/easyTeamSpeak/archive/master.zip
+	apt install unzip
 	unzip master.zip
 	mv /root/easyTeamSpeak-master/easyTeamSpeak.sh /root
 	rm master.zip
@@ -923,7 +924,7 @@ fi
 header
 message="Version: $version" && message
 message="by easy (https://github.com/easy)" && message
-message="Attention! Bugs can occur. Please report this at https://3asy.de/#contact" && error
+message="Attention! Bugs can occur. Please report this at https://github.com/easy/easyTeamSpeak" && error
 sleep 1
 if [ "$autoupdate" = true ]
 	then
