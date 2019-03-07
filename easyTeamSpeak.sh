@@ -917,6 +917,8 @@ if [ "$firstuse" = true ]
 	gem install lolcat
 	sed -i '/firstuse/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 	echo 'firstuse=false' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+	source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
+
 fi
 header
 message="Version: $version" && message
