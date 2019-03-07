@@ -924,7 +924,7 @@ fi
 header
 message="Version: $version" && message
 message="by easy (https://github.com/easy)" && message
-message="Attention! Bugs can occur. Please report this at https://github.com/easy/easyTeamSpeak" && error
+message="Attention! Bugs can occur. Please report this at https://easy.de/#contact" && error
 sleep 1
 if [ "$autoupdate" = true ]
 	then
