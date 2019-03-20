@@ -280,7 +280,7 @@ update1() {
 			rm teamspeak3-server_linux_amd64-$versioninstall.tar.bz2
 			cd teamspeak3-server_linux_amd64
 			touch .ts3server_license_accepted
-			./ts3server_startscript.sh start
+			./ts3server_startscript.sh restart
 			header
 			message="TeamSpeak wurde erfolgreich auf die $versioninstall aktualisiert!" && message
 			message='Ein Sicherheits-Backup wurde unter dem Namen "secruity-backup" abgespeichert.' && error
@@ -868,7 +868,7 @@ config() {
 				read -p "Bist du dir sicher? " -n 1 -r
 				if [[ $REPLY =~ ^[YyJj]$ ]]
 					then
-					update
+					updater
 					header
 					message="Das Script ist nun auf der neusten Version." && message
 					sleep 1
