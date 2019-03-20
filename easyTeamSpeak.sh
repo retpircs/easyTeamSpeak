@@ -896,7 +896,7 @@ config() {
 	done
 }
 
-update() {
+updater() {
 	header
 	message="Updater" && message
 	cd
@@ -931,7 +931,7 @@ message="Attention! Bugs can occur. Please report this at https://easy.de/#conta
 sleep 1
 if [ "$autoupdate" = true ]
 	then
-	update
+	updater
 fi
 if [ ! -d "/home/easy" ]
 	then
