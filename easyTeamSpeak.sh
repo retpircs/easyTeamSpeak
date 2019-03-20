@@ -5,7 +5,7 @@ version="BETA v0.3"
 
 menu=("Installieren" "Deinstallieren" "Update" "Starten" "Stoppen" "Neustarten" "Whitelist" "Blacklist" "Backup" "Einstellungen" "Abbrechen")
 option=("Ja" "Nein")
-versionmenu=("3.6.1 (empfohlen)" "Individuell" "Zurück")
+versionmenu=("3.7.0 (empfohlen)" "Individuell" "Zurück")
 list=("Anzeigen" "Hinzufügen" "Entfernen" "Änderungen übernehmen" "Zurück")
 backup=("Anzeigen" "Erstellen" "Einspielen" "Löschen" "Zurück")
 config=("Layout" "TS³-Pfad" "Automatische Updates" "Manuelles Update" "Einstellungen zurücksetzen" "Zurück")
@@ -157,8 +157,8 @@ install2() {
 	select tsversion in "${versionmenu[@]}"
 	do
 		case $tsversion in
-			"3.6.1 (empfohlen)")
-				versioninstall="3.6.1"
+			"3.7.0 (empfohlen)")
+				versioninstall="3.7.0"
 				install3
 				;;
 			"Individuell")
@@ -238,8 +238,8 @@ update() {
 	select tsversion in "${versionmenu[@]}"
 	do
 		case $tsversion in
-			"3.6.1 (empfohlen)")
-				versioninstall="3.6.1"
+			"3.7.0 (empfohlen)")
+				versioninstall="3.7.0"
 				update1
 				;;
 			"Individuell")
