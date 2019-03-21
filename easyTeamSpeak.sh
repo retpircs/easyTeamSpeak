@@ -22,6 +22,18 @@ firstuse="true"
 autoupdate="true"
 ########## Default Config ##########
 
+if [ ! -d "/home/easy" ]
+	then
+	mkdir /home/easy
+fi
+if [ ! -d "/home/easy/easyTeamSpeak" ]
+	then
+	mkdir /home/easy/easyTeamSpeak
+fi
+if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
+	then
+	mkdir /home/easy/easyTeamSpeak/Backups
+fi
 touch /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 
@@ -932,17 +944,5 @@ sleep 1
 if [ "$autoupdate" = true ]
 	then
 	updater
-fi
-if [ ! -d "/home/easy" ]
-	then
-	mkdir /home/easy
-fi
-if [ ! -d "/home/easy/easyTeamSpeak" ]
-	then
-	mkdir /home/easy/easyTeamSpeak
-fi
-if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
-	then
-	mkdir /home/easy/easyTeamSpeak/Backups
 fi
 gomenu
