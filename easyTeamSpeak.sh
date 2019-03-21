@@ -1,6 +1,6 @@
 #!/bin/bash
-# Author: easy (https://3asy.de)
-# Project page: https://3asy.de/easyTeamSpeak.html
+#Author: easy (https://3asy.de)
+#Project page: https://3asy.de/easyTeamSpeak.html
 version="BETA v0.3"
 
 menu=("Installieren" "Deinstallieren" "Update" "Starten" "Stoppen" "Neustarten" "Whitelist" "Blacklist" "Backup" "Einstellungen" "Abbrechen")
