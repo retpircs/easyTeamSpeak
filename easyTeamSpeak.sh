@@ -927,6 +927,7 @@ if [ "$firstuse" = true ]
 	sleep 2
 	apt update
 	apt install ruby -y
+	apt install gem -y
 	apt install lolcat -y
 	gem install lolcat -y
 	apt install unzip -y
@@ -934,7 +935,6 @@ if [ "$firstuse" = true ]
 	sed -i '/firstuse/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 	echo 'firstuse=false' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 	source /home/easy/easyTeamSpeak/easyTeamSpeak.conf
-
 fi
 header
 message="Version: $version" && message
