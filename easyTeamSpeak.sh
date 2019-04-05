@@ -196,7 +196,6 @@ install3() {
 	if [[ $REPLY =~ ^[YyJj]$ ]]
 		then
 		apt update
-		apt upgrade -y
 		apt install bzip2
 		mkdir ${path}
 		cd ${path}
@@ -272,12 +271,11 @@ update() {
 
 update1() {
 	header
-	message="TeamSpeak wird auf die Version $versioninstall geupdatet."
+	message="TeamSpeak wird auf die Version $versioninstall geupdatet." && message
 	read -p "Bist du dir sicher? " -n 1 -r
 	if [[ $REPLY =~ ^[YyJj]$ ]]
 		then
 			apt update
-			apt upgrade -y
 			if [ ! -d "/home/easy/easyTeamSpeak/Backups" ]
 				then
 				mkdir /home/easy/easyTeamSpeak/Backups
