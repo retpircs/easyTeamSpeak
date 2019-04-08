@@ -929,6 +929,7 @@ if [ "$firstuse" = true ]
 	gem install lolcat -y
 	apt install unzip -y
 	apt install bzip2 -y
+	apt install tar -y
 	apt update
 	sed -i '/firstuse/d' /home/easy/easyTeamSpeak/easyTeamSpeak.conf
 	echo 'firstuse=false' >> /home/easy/easyTeamSpeak/easyTeamSpeak.conf
